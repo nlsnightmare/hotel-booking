@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class Hotelroom {
+public class HotelRoom {
 	private int roomID;
 	private int numberOfBeds;
 	private boolean isStudio;
@@ -50,16 +50,6 @@ public class Hotelroom {
 	}
 
 
-	public int getNumberOfMeals() {
-		return numberOfMeals;
-	}
-
-
-	public void setNumberOfMeals(int numberOfMeals) {
-		this.numberOfMeals = numberOfMeals;
-	}
-
-
 	public int[] getPriceWithMeals() {
 		return priceWithMeals;
 	}
@@ -67,5 +57,14 @@ public class Hotelroom {
 
 	public void setPriceWithMeals(int[] priceWithMeals) {
 		this.priceWithMeals = priceWithMeals;
+	}
+
+
+	public int getNumberOfMeals() {
+		return numberOfMeals;
+	}
+
+	public void setNumberOfMeals(int numberOfMeals) {
+		this.numberOfMeals = numberOfMeals;
 	}
 }
