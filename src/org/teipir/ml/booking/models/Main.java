@@ -16,7 +16,7 @@ public class Main {
 	    }
 	    Connection conn = null;
 	    try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root&password=root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root&password=root&useSSL=false");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
