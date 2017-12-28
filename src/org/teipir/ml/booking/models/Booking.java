@@ -1,5 +1,7 @@
 package org.teipir.ml.booking.models;
 
+import java.util.Date;
+
 public class Booking {
 	
 	private int bookingID;
@@ -11,96 +13,72 @@ public class Booking {
 	private Date startingDate;
 	private Date finishDate;
 	private int prepaidAmount;
-	private Room room;
+	private HotelRoom room;
 	private boolean isOnline;
-	
-	
-	
-	public int getbookingID() {
+	public int getBookingID() {
 		return bookingID;
 	}
-	
-	public int setbookingID() {
-		return bookingID;
+	public void setBookingID(int bookingID) {
+		this.bookingID = bookingID;
 	}
-
-	
-	public String gettelephone() {
+	public String getTelephone() {
 		return telephone;
 	}
-	
-	public String settelephone() {
-		return telephone;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
-	
-	public String creditCard() {
-		return telephone;
+	public String getCreditCard() {
+		return creditCard;
 	}
-	
-	public String setname() {
+	public void setCreditCard(String creditCard) {
+		this.creditCard = creditCard;
+	}
+	public String getName() {
 		return name;
 	}
-	
-	public int getname() {
-		return name;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public int setsurname() {
-		return surname
-	
-	public int getsurname() {
+	public String getSurname() {
 		return surname;
 	}
-	
-	public int setbookDate() {
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	public Date getBookDate() {
 		return bookDate;
 	}
-	
-	public int getbookDate() {
-		return bookDate;
+	public void setBookDate(Date bookDate) {
+		this.bookDate = bookDate;
 	}
-	
-	public int setstartingDate() {
-		return startngDate;
-	}
-	
-	public int getstartinDate() {
+	public Date getStartingDate() {
 		return startingDate;
 	}
-	
-	public int setfinishDate() {
+	public void setStartingDate(Date startingDate) {
+		this.startingDate = startingDate;
+	}
+	public Date getFinishDate() {
 		return finishDate;
 	}
-	
-	public int getfinishDate() {
-		return finishDate;
+	public void setFinishDate(Date finishDate) {
+		this.finishDate = finishDate;
 	}
-	
-	public int setpaidAmount() {
-		return paidAmount(;
+	public int getPrepaidAmount() {
+		return prepaidAmount;
 	}
-	
-	public int getpaidAmount(() {
-		return paidAmount(;
+	public void setPrepaidAmount(int prepaidAmount) {
+		this.prepaidAmount = prepaidAmount;
 	}
-	
-	public int setroom() {
+	public HotelRoom getRoom() {
 		return room;
 	}
-	
-	public int getroom() {
-		return room;
+	public void setRoom(HotelRoom room) {
+		this.room = room;
 	}
-	
-	public int setisOnline() {
-		return bookingID;
-	}
-	
-	public int getbookingID() {
+	public boolean isOnline() {
 		return isOnline;
 	}
-	
-	public int setisOnline() {
-		return isOnline;
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
 	}
 }

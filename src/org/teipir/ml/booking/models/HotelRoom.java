@@ -1,6 +1,7 @@
 package org.teipir.ml.booking.models;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
