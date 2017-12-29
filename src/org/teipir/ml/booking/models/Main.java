@@ -16,7 +16,7 @@ public class Main {
 	    }
 	    Connection conn = null;
 	    try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root&password=root&useSSL=false");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelbooking?" + "user=root&password=root&useSSL=false");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -24,10 +24,10 @@ public class Main {
 	    ResultSet rs = null;
 	    try {
 	        stmt = conn.createStatement();
-	        if (stmt.execute("SELECT * FROM java_test")) {
+	        if (stmt.execute("SELECT * FROM Rooms")) {
 	            rs = stmt.getResultSet();
 	            while(rs.next())
-	            	System.out.println(rs.getString("name"));
+	            	System.out.println("Room number: " + rs.getString("roomid") + " " + rs.getBoolean("isAvailable") );
 	        }
 
 	        // Now do something with the ResultSet ....
