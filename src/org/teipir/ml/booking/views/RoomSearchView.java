@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.teipir.ml.booking.controller.RoomSearchController;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -20,8 +23,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JSlider;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class UserInterface extends JFrame {
+public class RoomSearchView extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -34,7 +39,7 @@ public class UserInterface extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UserInterface frame = new UserInterface();
+					RoomSearchView frame = new RoomSearchView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +51,10 @@ public class UserInterface extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UserInterface() {
+	public RoomSearchView() {
+		
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 485, 433);
 		contentPane = new JPanel();
@@ -192,7 +200,10 @@ public class UserInterface extends JFrame {
 		gbc_textField_1.gridy = 7;
 		contentPane.add(textField_1, gbc_textField_1);
 		
+		RoomSearchController c  = new RoomSearchController();
+
 		JButton searchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		searchButton.addActionListener(c.new SearchButtonController());
 		GridBagConstraints gbc_searchButton = new GridBagConstraints();
 		gbc_searchButton.insets = new Insets(0, 0, 0, 5);
 		gbc_searchButton.gridx = 0;
