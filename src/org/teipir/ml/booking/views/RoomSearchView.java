@@ -25,12 +25,14 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class RoomSearchView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField arrivalDate;
+	private JTextField departureDate;
 
 	/**
 	 * Launch the application.
@@ -52,18 +54,16 @@ public class RoomSearchView extends JFrame {
 	 * Create the frame.
 	 */
 	public RoomSearchView() {
-		
-		
-		
+		RoomSearchController c  = new RoomSearchController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 485, 433);
+		setBounds(100, 100, 464, 319);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{107, 186, 0, 28, 0};
+		gbl_contentPane.columnWidths = new int[]{107, 186, 0, 0, 28, 0};
 		gbl_contentPane.rowHeights = new int[]{25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -144,8 +144,20 @@ public class RoomSearchView extends JFrame {
 		gbc_label_2.gridx = 0;
 		gbc_label_2.gridy = 5;
 		contentPane.add(label_2, gbc_label_2);
-		
+
+		final JLabel costPerDay = new JLabel("0.00\u20AC");
+		costPerDay.setHorizontalAlignment(SwingConstants.CENTER);
+		costPerDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_costPerDay = new GridBagConstraints();
+		gbc_costPerDay.insets = new Insets(0, 0, 5, 5);
+		gbc_costPerDay.gridx = 3;
+		gbc_costPerDay.gridy = 5;
+		contentPane.add(costPerDay, gbc_costPerDay);
+
 		JSlider costPerDaySlider = new JSlider();
+		costPerDaySlider.setMaximum(500);
+		costPerDaySlider.setMinimum(20);
+		costPerDaySlider.addChangeListener(c.new CostPerDaySliderController(costPerDay));
 		costPerDaySlider.setValue(0);
 		GridBagConstraints gbc_costPerDaySlider = new GridBagConstraints();
 		gbc_costPerDaySlider.insets = new Insets(0, 0, 5, 5);
@@ -153,14 +165,7 @@ public class RoomSearchView extends JFrame {
 		gbc_costPerDaySlider.gridy = 5;
 		contentPane.add(costPerDaySlider, gbc_costPerDaySlider);
 		
-		JLabel costPerDay = new JLabel("0.00\u20AC");
-		costPerDay.setHorizontalAlignment(SwingConstants.CENTER);
-		costPerDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_costPerDay = new GridBagConstraints();
-		gbc_costPerDay.insets = new Insets(0, 0, 5, 5);
-		gbc_costPerDay.gridx = 2;
-		gbc_costPerDay.gridy = 5;
-		contentPane.add(costPerDay, gbc_costPerDay);
+		
 		
 		JLabel label_3 = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0386\u03C6\u03B9\u03BE\u03B7\u03C2");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -172,14 +177,14 @@ public class RoomSearchView extends JFrame {
 		gbc_label_3.gridy = 6;
 		contentPane.add(label_3, gbc_label_3);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 6;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(5);
+		arrivalDate = new JTextField();
+		GridBagConstraints gbc_arrivalDate = new GridBagConstraints();
+		gbc_arrivalDate.insets = new Insets(0, 0, 5, 5);
+		gbc_arrivalDate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_arrivalDate.gridx = 1;
+		gbc_arrivalDate.gridy = 6;
+		contentPane.add(arrivalDate, gbc_arrivalDate);
+		arrivalDate.setColumns(5);
 		
 		JLabel label_4 = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0391\u03C0\u03BF\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7\u03C2");
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -191,30 +196,30 @@ public class RoomSearchView extends JFrame {
 		gbc_label_4.gridy = 7;
 		contentPane.add(label_4, gbc_label_4);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(5);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 7;
-		contentPane.add(textField_1, gbc_textField_1);
+		departureDate = new JTextField();
+		departureDate.setColumns(5);
+		GridBagConstraints gbc_departureDate = new GridBagConstraints();
+		gbc_departureDate.insets = new Insets(0, 0, 5, 5);
+		gbc_departureDate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_departureDate.gridx = 1;
+		gbc_departureDate.gridy = 7;
+		contentPane.add(departureDate, gbc_departureDate);
 		
-		RoomSearchController c  = new RoomSearchController();
 
 		JButton searchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
-		searchButton.addActionListener(c.new SearchButtonController());
+		searchButton.addActionListener(c.new SearchButtonController(numOfMeals,numOfBeds,isStudio,costPerDaySlider, arrivalDate, departureDate));
 		GridBagConstraints gbc_searchButton = new GridBagConstraints();
-		gbc_searchButton.insets = new Insets(0, 0, 0, 5);
+		gbc_searchButton.insets = new Insets(0, 0, 5, 5);
 		gbc_searchButton.gridx = 0;
-		gbc_searchButton.gridy = 9;
+		gbc_searchButton.gridy = 8;
 		contentPane.add(searchButton, gbc_searchButton);
 		
 		JButton clearButton = new JButton("\u0391\u03C0\u03B1\u03BB\u03BF\u03B9\u03C6\u03AE \u03A6\u03AF\u03BB\u03C4\u03C1\u03C9\u03BD");
+		clearButton.addActionListener(c.new ClearButtonController(numOfMeals, numOfBeds, isStudio, costPerDaySlider, arrivalDate, departureDate));
 		GridBagConstraints gbc_clearButton = new GridBagConstraints();
-		gbc_clearButton.insets = new Insets(0, 0, 0, 5);
+		gbc_clearButton.insets = new Insets(0, 0, 5, 5);
 		gbc_clearButton.gridx = 1;
-		gbc_clearButton.gridy = 9;
+		gbc_clearButton.gridy = 8;
 		contentPane.add(clearButton, gbc_clearButton);
 		
 	
