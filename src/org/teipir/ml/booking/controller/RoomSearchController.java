@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.teipir.ml.booking.views.RoomSearchResultsView;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RoomSearchController {
@@ -49,6 +51,11 @@ public class RoomSearchController {
 			String finishDate = till.getText();
 			System.out.println("From: " + startingDate);
 			System.out.println("Till: " + finishDate);
+			
+			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio;
+			System.out.println(query);
+			RoomSearchResultsView v = new RoomSearchResultsView(3);
+			v.setVisible(true);
 		}
 	}
 	

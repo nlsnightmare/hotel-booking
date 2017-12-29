@@ -54,6 +54,7 @@ public class RoomSearchView extends JFrame {
 	 * Create the frame.
 	 */
 	public RoomSearchView() {
+		setResizable(false);
 		RoomSearchController c  = new RoomSearchController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 464, 319);
