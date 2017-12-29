@@ -6,24 +6,31 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.teipir.ml.booking.models.HotelRoom;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 public class RoomSearchResultsView extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 
 	/**
 	 * Create the frame.
 	 */
-	public RoomSearchResultsView(int i) {
+	public RoomSearchResultsView(Vector<HotelRoom> v) {
+
+		System.out.println("I found " + v.capacity() + " rooms");
+		System.out.println(v.get(0).getRoomID());
+		
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 555, 398);
@@ -58,11 +65,5 @@ public class RoomSearchResultsView extends JFrame {
 		JButton BookRoomButton = new JButton("Κράτηση Δωματίου");
 		BookRoomButton.setBounds(180, 300, 180, 50);
 		contentPane.add(BookRoomButton);
-		
-		textField = new JTextField();
-		textField.setBounds(137, 122, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		textField.setText("" + i);
 	}
 }

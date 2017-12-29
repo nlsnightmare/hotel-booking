@@ -3,6 +3,7 @@ package org.teipir.ml.booking.controller;
 import java.awt.Choice;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -11,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.teipir.ml.booking.models.HotelRoom;
 import org.teipir.ml.booking.views.RoomSearchResultsView;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -54,8 +56,9 @@ public class RoomSearchController {
 			
 			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio;
 			System.out.println(query);
-			RoomSearchResultsView v = new RoomSearchResultsView(3);
-			v.setVisible(true);
+			Vector<HotelRoom> v = HotelRoom.getRoomFromQuery(query);
+			RoomSearchResultsView view = new RoomSearchResultsView(v);
+			view.setVisible(true);
 		}
 	}
 	
