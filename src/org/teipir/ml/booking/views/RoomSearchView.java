@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.teipir.ml.booking.controller.RoomSearchController;
+import org.teipir.ml.booking.models.Database;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -38,6 +39,7 @@ public class RoomSearchView extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Database.initialize();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

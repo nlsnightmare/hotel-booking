@@ -3,34 +3,48 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import com.mysql.jdbc.Statement;
 
-public class Main {
 
-	public static void main(String[] args) {
+public class Database {
+
+	private static Connection conn = null;
+
+	public static void initialize() {
 		// TODO Auto-generated method stub
 	    try {
 	    	Class.forName("com.mysql.jdbc.Driver").newInstance();
 	    } catch (Exception ex) {
+	    	System.out.println("Failed to find 'com.mysql.jdbc.Driver'");
 	    }
-	    Connection conn = null;
+	    conn = null;
 	    try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelbooking?" + "user=root&password=root&useSSL=false");
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("Failed to connect to database!");
 		}
+	}
+
+	public static Vector<HotelRoom> runQuery(String query) {
 	    java.sql.Statement stmt = null;
 	    ResultSet rs = null;
+		Vector<HotelRoom> res = new Vector<HotelRoom>();
 	    try {
 	        stmt = conn.createStatement();
-	        if (stmt.execute("SELECT * FROM Rooms")) {
+	        if (stmt.execute(query))
 	            rs = stmt.getResultSet();
-	            while(rs.next())
-	            	System.out.println("Room number: " + rs.getString("roomid") + " " + rs.getBoolean("isAvailable") );
-	        }
+				try {
+					while(rs.next()) {
+						res.add(new HotelRoom());
+						res.get(0).setRoomID(rs.getInt("roomId"));
+						res.get(0).setStudio(rs.getBoolean("isStudio"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 
-	        // Now do something with the ResultSet ....
 	    }
 	    catch (SQLException ex){
 	        // handle any errors
@@ -39,29 +53,14 @@ public class Main {
 	        System.out.println("VendorError: " + ex.getErrorCode());
 	    }
 	    finally {
-	        // it is a good idea to release
-	        // resources in a finally{} block
-	        // in reverse-order of their creation
-	        // if they are no-longer needed
-
-	        if (rs != null) {
+	       if( stmt != null && rs != null) {
 	            try {
-	                rs.close();
-	            } catch (SQLException sqlEx) { } // ignore
-
-	            rs = null;
-	        }
-
-	        if (stmt != null) {
-	            try {
+	            	rs.close();
 	                stmt.close();
-	            } catch (SQLException sqlEx) { } // ignore
-
+	            } catch (SQLException sqlEx) { }
 	            stmt = null;
 	        }
 	    }
- 
-
+	    return res;
 	}
-
 }

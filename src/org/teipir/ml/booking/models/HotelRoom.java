@@ -1,6 +1,8 @@
 package org.teipir.ml.booking.models;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Vector;
 
@@ -13,14 +15,7 @@ public class HotelRoom {
 	private int numberOfMeals;
 	private int[] priceWithMeals;
 	
-	public static Vector<HotelRoom> getRoomFromQuery(String query){
-		Vector<HotelRoom> res = new Vector();
-		res.add(new HotelRoom());
-		res.get(0).roomID = 5;
-		res.add(new HotelRoom());
-		res.get(1).roomID = 1;
-		return res;
-	}
+
 	public int calculatePrice(int numOfMeals, int days) {
 		return priceWithMeals[numOfMeals] * days;
 	}

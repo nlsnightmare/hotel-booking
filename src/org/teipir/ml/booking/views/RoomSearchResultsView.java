@@ -28,11 +28,9 @@ public class RoomSearchResultsView extends JFrame {
 	 */
 	public RoomSearchResultsView(Vector<HotelRoom> v) {
 
-		System.out.println("I found " + v.capacity() + " rooms");
-		System.out.println(v.get(0).getRoomID());
+		System.out.println("I found " + v.size() + " rooms");
 		
 		setResizable(false);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 555, 398);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

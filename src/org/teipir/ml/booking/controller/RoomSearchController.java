@@ -7,11 +7,13 @@ import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.teipir.ml.booking.models.Database;
 import org.teipir.ml.booking.models.HotelRoom;
 import org.teipir.ml.booking.views.RoomSearchResultsView;
 
@@ -56,9 +58,13 @@ public class RoomSearchController {
 			
 			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio;
 			System.out.println(query);
-			Vector<HotelRoom> v = HotelRoom.getRoomFromQuery(query);
-			RoomSearchResultsView view = new RoomSearchResultsView(v);
-			view.setVisible(true);
+			Vector<HotelRoom> v = Database.runQuery(query);
+			if( v.size() > 0) {
+				RoomSearchResultsView view = new RoomSearchResultsView(v);
+				view.setVisible(true);
+			}
+			else
+				JOptionPane.showMessageDialog(null, "No available rooms found!");
 		}
 	}
 	
