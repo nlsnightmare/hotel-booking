@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.Color;
 
 public class RoomSearchView extends JFrame {
 
@@ -64,9 +65,9 @@ public class RoomSearchView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{107, 186, 0, 0, 28, 0};
+		gbl_contentPane.columnWidths = new int[]{107, 186, 0, 0, 0, 28, 0};
 		gbl_contentPane.rowHeights = new int[]{25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -153,7 +154,7 @@ public class RoomSearchView extends JFrame {
 		costPerDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_costPerDay = new GridBagConstraints();
 		gbc_costPerDay.insets = new Insets(0, 0, 5, 5);
-		gbc_costPerDay.gridx = 3;
+		gbc_costPerDay.gridx = 4;
 		gbc_costPerDay.gridy = 5;
 		contentPane.add(costPerDay, gbc_costPerDay);
 
@@ -189,6 +190,15 @@ public class RoomSearchView extends JFrame {
 		contentPane.add(arrivalDate, gbc_arrivalDate);
 		arrivalDate.setColumns(5);
 		
+		JLabel is_check_in_Valid = new JLabel("");
+		is_check_in_Valid.setForeground(Color.RED);
+		GridBagConstraints gbc_is_check_in_Valid = new GridBagConstraints();
+		gbc_is_check_in_Valid.gridwidth = 2;
+		gbc_is_check_in_Valid.insets = new Insets(0, 0, 5, 5);
+		gbc_is_check_in_Valid.gridx = 2;
+		gbc_is_check_in_Valid.gridy = 6;
+		contentPane.add(is_check_in_Valid, gbc_is_check_in_Valid);
+		
 		JLabel label_4 = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0391\u03C0\u03BF\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7\u03C2");
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
 		label_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -209,12 +219,22 @@ public class RoomSearchView extends JFrame {
 		contentPane.add(departureDate, gbc_departureDate);
 		
 
-		JButton searchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
-		searchButton.addActionListener(c.new SearchButtonController(numOfMeals,numOfBeds,isStudio,costPerDaySlider, arrivalDate, departureDate));
+		
+		JLabel is_check_out_Valid = new JLabel("");
+		is_check_out_Valid.setForeground(Color.RED);
+		GridBagConstraints gbc_is_check_out_Valid = new GridBagConstraints();
+		gbc_is_check_out_Valid.gridwidth = 2;
+		gbc_is_check_out_Valid.insets = new Insets(0, 0, 5, 5);
+		gbc_is_check_out_Valid.gridx = 2;
+		gbc_is_check_out_Valid.gridy = 7;
+		contentPane.add(is_check_out_Valid, gbc_is_check_out_Valid);
 		GridBagConstraints gbc_searchButton = new GridBagConstraints();
 		gbc_searchButton.insets = new Insets(0, 0, 5, 5);
 		gbc_searchButton.gridx = 0;
 		gbc_searchButton.gridy = 8;
+
+		JButton searchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
+		searchButton.addActionListener(c.new SearchButtonController(numOfMeals,numOfBeds,isStudio,costPerDaySlider, arrivalDate, departureDate,is_check_in_Valid,is_check_out_Valid));
 		contentPane.add(searchButton, gbc_searchButton);
 		
 		JButton clearButton = new JButton("\u0391\u03C0\u03B1\u03BB\u03BF\u03B9\u03C6\u03AE \u03A6\u03AF\u03BB\u03C4\u03C1\u03C9\u03BD");

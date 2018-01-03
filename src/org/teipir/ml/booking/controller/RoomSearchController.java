@@ -3,6 +3,9 @@ package org.teipir.ml.booking.controller;
 import java.awt.Choice;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JCheckBox;
@@ -27,14 +30,18 @@ public class RoomSearchController {
 		JSlider costPerDay;
 		JTextField from;
 		JTextField till;
+		JLabel is_check_in_Valid, is_check_out_Valid;
 
-		public SearchButtonController(Choice numOfMeals,Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till) {
+		public SearchButtonController(Choice numOfMeals,Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till, JLabel is_check_in_Valid, JLabel is_check_out_Valid) {
 			this.numOfMeals = numOfMeals;
 			this.numOfBeds = numOfBeds;
 			this.isStudio = isStudio;
 			this.costPerDay = costPerDay;
 			this.from = from;
 			this.till = till;
+			this.is_check_in_Valid = is_check_in_Valid;
+			this.is_check_out_Valid = is_check_out_Valid;
+			
 		}
 
 		public void actionPerformed(ActionEvent arg0) {			
@@ -53,8 +60,21 @@ public class RoomSearchController {
 			
 			String startingDate = from.getText();
 			String finishDate = till.getText();
-			System.out.println("From: " + startingDate);
-			System.out.println("Till: " + finishDate);
+			System.out.println(startingDate.matches("[0-9]{1,2}/[0-9]{2}/[0-9]{4}"));
+			SimpleDateFormat ft = new SimpleDateFormat("d/mm/yyyy");
+			ft.setLenient(false);
+			try {
+				ft.parse(startingDate);
+				ft.parse(finishDate);
+			} catch (ParseException e) {
+				is_check_in_Valid.setText("X");
+				is_check_out_Valid.setText("X");
+				return;
+			}
+
+			is_check_in_Valid.setText("");
+
+			is_check_out_Valid.setText("");
 			
 			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio;
 			System.out.println(query);

@@ -26,6 +26,40 @@ public class Database {
 			System.out.println("Failed to connect to database!");
 		}
 	}
+	public static boolean CheckRoomAvailability(int roomId,String checkin, String checkout) {
+		java.sql.Statement stmt = null;
+		ResultSet rs = null;
+		String query = "SELECT COUNT(*) AS A FROM BOOKING WHERE " + 
+							"room = " + roomId + " and (" + 
+					        "STARTINGDATE > date '" + checkout +"' or " + 
+					        "FINISHDATE < date '"+ checkin + "')";
+		System.out.println(query);
+		int amount =0 , total = 1;
+		try {
+			stmt = conn.createStatement();
+
+			if(stmt.execute(query))
+			{
+				rs = stmt.getResultSet();
+				rs.next();
+				amount = rs.getInt("A");
+			}
+
+			stmt = conn.createStatement();
+
+			if(stmt.execute("SELECT COUNT(*) AS A FROM BOOKING WHERE ROOM="+ roomId))
+			{
+				rs = stmt.getResultSet();
+				rs.next();
+				total = rs.getInt("A");
+			}
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return amount - total == 0;
+	}
 
 	public static Vector<HotelRoom> runQuery(String query) {
 	    java.sql.Statement stmt = null;
