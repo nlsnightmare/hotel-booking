@@ -1,5 +1,8 @@
 package org.teipir.ml.booking.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Booking {
@@ -10,11 +13,40 @@ public class Booking {
 	private String name;
 	private String surname;
 	private Date bookDate;
-	private Date startingDate;
-	private Date finishDate;
+	private Date checkIn;
+	private Date checkOut;
 	private int prepaidAmount;
-	private HotelRoom room;
+	private int roomId;
 	private boolean isOnline;
+
+	
+	public Booking(int roomId, String telephone, String creditCard, String name, String surname, String bookDate,
+			String checkIn, String checkOut, int prepaidAmount, boolean isOnline) {
+
+		SimpleDateFormat ft = new SimpleDateFormat("d-m-y");
+		Date d1 = new Date();
+		Date d2 = new Date();
+		Date d3 = new Date();
+		try {
+			d1 = ft.parse(checkIn);
+			d2 = ft.parse(checkOut);
+			if(bookDate != "")
+				d3 = ft.parse(bookDate);
+		} catch (ParseException e) {
+			System.out.println("Failed to parse dates");
+		}
+		this.roomId = roomId;
+		this.telephone = telephone;
+		this.creditCard = creditCard;
+		this.name = name;
+		this.surname = surname;
+		this.bookDate = d3;
+		this.checkIn = d1;
+		this.checkOut = d2;
+		this.prepaidAmount = prepaidAmount;
+		this.isOnline = isOnline;
+	}
+
 	public int getBookingID() {
 		return bookingID;
 	}
@@ -51,17 +83,17 @@ public class Booking {
 	public void setBookDate(Date bookDate) {
 		this.bookDate = bookDate;
 	}
-	public Date getStartingDate() {
-		return startingDate;
+	public Date getCheckIn() {
+		return checkIn;
 	}
 	public void setStartingDate(Date startingDate) {
-		this.startingDate = startingDate;
+		this.checkIn = startingDate;
 	}
-	public Date getFinishDate() {
-		return finishDate;
+	public Date getCheckOut() {
+		return checkOut;
 	}
 	public void setFinishDate(Date finishDate) {
-		this.finishDate = finishDate;
+		this.checkOut = finishDate;
 	}
 	public int getPrepaidAmount() {
 		return prepaidAmount;
@@ -69,16 +101,27 @@ public class Booking {
 	public void setPrepaidAmount(int prepaidAmount) {
 		this.prepaidAmount = prepaidAmount;
 	}
-	public HotelRoom getRoom() {
-		return room;
+	public int getRoom() {
+		return roomId;
 	}
 	public void setRoom(HotelRoom room) {
-		this.room = room;
+		this.roomId = room.getRoomID();
 	}
 	public boolean isOnline() {
 		return isOnline;
 	}
 	public void setOnline(boolean isOnline) {
 		this.isOnline = isOnline;
+	}
+	
+	public String toQuery() {
+		String today = "";
+		Date d = Calendar.getInstance().getTime();
+		SimpleDateFormat ft = new SimpleDateFormat("y-M-d");
+		today = ft.format(d);
+		String query = "INSERT INTO BOOKING(TELEPHONE,CREDITCARD,FIRSTNAME,SURNAME,BOOKDATE,CHECKIN,CHECKOUT,PREPAIDAMOUNT,ROOM,ISONLINE) "
+				+ "VALUES('" + getTelephone() + "','" + getCreditCard() + "','" + getName() + "','" + getSurname() + "','" + today +
+				"','" + ft.format(getCheckIn()) + "','" + ft.format(getCheckOut()) + "'," + getPrepaidAmount() + "," + getRoom() + ",true)";
+		return query;
 	}
 }

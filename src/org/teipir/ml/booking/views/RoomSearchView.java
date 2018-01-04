@@ -42,7 +42,7 @@ public class RoomSearchView extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		Database.initialize();
+		Database.initialize("hotelbooking", "root", "root");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

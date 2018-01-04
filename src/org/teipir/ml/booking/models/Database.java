@@ -12,7 +12,7 @@ public class Database {
 
 	private static Connection conn = null;
 
-	public static boolean initialize() {
+	public static boolean initialize(String dbName, String username, String password) {
 		// TODO Auto-generated method stub
 	    try {
 	    	Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -22,7 +22,8 @@ public class Database {
 	    }
 	    conn = null;
 	    try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelbooking?" + "user=root&password=root&useSSL=false");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName +
+					"?user="+ username + "&password="+ password + "&useSSL=false");
 		} catch (SQLException e) {
 			System.out.println("Failed to connect to database!");
 			return false;
@@ -41,9 +42,8 @@ public class Database {
 		ResultSet rs = null;
 		String query = "SELECT COUNT(*) AS A FROM BOOKING WHERE " + 
 							"room = " + roomId + " and (" + 
-					        "STARTINGDATE > date '" + checkout +"' or " + 
-					        "FINISHDATE < date '"+ checkin + "')";
-		System.out.println(query);
+					        "CHECKIN > date '" + checkout +"' or " + 
+					        "CHECKOUT < date '"+ checkin + "')";
 		int amount = 0 , total = 1;
 		try {
 			stmt = conn.createStatement();
@@ -71,6 +71,11 @@ public class Database {
 		return amount - total == 0;
 	}
 
+	public static void bookRoom(Booking b) {
+		ResultSet rs = null;
+	    java.sql.Statement stmt = null;
+	}
+
 	public static Vector<HotelRoom> searchRoom(String query, String checkin, String checkout) {
 	    java.sql.Statement stmt = null;
 	    ResultSet rs = null;
@@ -82,7 +87,7 @@ public class Database {
 				try {
 					while(rs.next()) {
 						int id = rs.getInt("roomId");
-						if(!isRoomAvailable(id, Database.convertDateFormat(checkin), Database.convertDateFormat(checkout))) 
+						if(!isRoomAvailable(id, Database.convertDateFormat(checkin), Database.convertDateFormat(checkout)))
 							continue;
 						res.add(new HotelRoom());
 						res.lastElement().setRoomID(rs.getInt("roomId"));
