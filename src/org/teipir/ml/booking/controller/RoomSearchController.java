@@ -24,7 +24,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RoomSearchController {
 	public class SearchButtonController implements ActionListener {
-		Choice numOfMeals;
 		Choice numOfBeds;
 		JCheckBox isStudio;
 		JSlider costPerDay;
@@ -32,8 +31,7 @@ public class RoomSearchController {
 		JTextField till;
 		JLabel is_check_in_Valid, is_check_out_Valid;
 
-		public SearchButtonController(Choice numOfMeals,Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till, JLabel is_check_in_Valid, JLabel is_check_out_Valid) {
-			this.numOfMeals = numOfMeals;
+		public SearchButtonController(Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till, JLabel is_check_in_Valid, JLabel is_check_out_Valid) {
 			this.numOfBeds = numOfBeds;
 			this.isStudio = isStudio;
 			this.costPerDay = costPerDay;
@@ -45,27 +43,21 @@ public class RoomSearchController {
 		}
 
 		public void actionPerformed(ActionEvent arg0) {			
-			System.out.println("So you want a room: ");
 			int numberOfBeds = numOfBeds.getSelectedIndex() + 1;
-			System.out.println("With " + numberOfBeds + " beds");
-
-			int numberOfMeals = numOfMeals.getSelectedIndex();
-			System.out.println("With " + numberOfMeals + " meals");
-			
 			boolean isstudio = isStudio.isSelected();
-			System.out.println(isstudio);
-			
 			int maximumPrice = costPerDay.getValue();
-			System.out.println("Maximum cost: " + maximumPrice);
 			
 			String startingDate = from.getText();
 			String finishDate = till.getText();
-			System.out.println(startingDate.matches("[0-9]{1,2}/[0-9]{2}/[0-9]{4}"));
 			SimpleDateFormat ft = new SimpleDateFormat("d/mm/yyyy");
 			ft.setLenient(false);
 			try {
-				ft.parse(startingDate);
-				ft.parse(finishDate);
+				Date d1 = ft.parse(startingDate);
+				Date d2 = ft.parse(finishDate);
+				if(!d1.before(d2)) {
+					JOptionPane.showMessageDialog(null, "Η ημερομηνία άφιξης πρέπει να είναι πριν την ημερομηνία αποχώρησης!");
+					return;
+				}
 			} catch (ParseException e) {
 				is_check_in_Valid.setText("X");
 				is_check_out_Valid.setText("X");
@@ -73,12 +65,10 @@ public class RoomSearchController {
 			}
 
 			is_check_in_Valid.setText("");
-
 			is_check_out_Valid.setText("");
 			
-			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio;
-			System.out.println(query);
-			Vector<HotelRoom> v = Database.runQuery(query);
+			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio + " && price < " + maximumPrice;
+			Vector<HotelRoom> v = Database.searchRoom(query, startingDate, finishDate);
 			if( v.size() > 0) {
 				RoomSearchResultsView view = new RoomSearchResultsView(v);
 				view.setVisible(true);
@@ -87,7 +77,6 @@ public class RoomSearchController {
 				JOptionPane.showMessageDialog(null, "No available rooms found!");
 		}
 	}
-	
 
 	public class ClearButtonController implements ActionListener {
 		Choice numOfMeals;

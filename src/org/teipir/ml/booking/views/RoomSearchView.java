@@ -25,6 +25,8 @@ import javax.swing.JSlider;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -60,7 +62,7 @@ public class RoomSearchView extends JFrame {
 		setResizable(false);
 		RoomSearchController c  = new RoomSearchController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 464, 319);
+		setBounds(100, 100, 464, 317);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -101,33 +103,13 @@ public class RoomSearchView extends JFrame {
 		gbc_numOfBeds.gridy = 2;
 		contentPane.add(numOfBeds, gbc_numOfBeds);
 		
-		JLabel label_5 = new JLabel("\u0391\u03C1\u03B9\u03B8\u03BC\u03CC\u03C2 \u0393\u03B5\u03C5\u03BC\u03AC\u03C4\u03C9\u03BD");
-		label_5.setHorizontalAlignment(SwingConstants.CENTER);
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_label_5 = new GridBagConstraints();
-		gbc_label_5.insets = new Insets(0, 0, 5, 5);
-		gbc_label_5.gridx = 0;
-		gbc_label_5.gridy = 3;
-		contentPane.add(label_5, gbc_label_5);
-		
-		Choice numOfMeals = new Choice();
-		numOfMeals.add("Kανένα");
-		numOfMeals.add("Ημιδιατροφή");
-		numOfMeals.add("Πλήρης Διατροφή");
-		GridBagConstraints gbc_numOfMeals = new GridBagConstraints();
-		gbc_numOfMeals.anchor = GridBagConstraints.WEST;
-		gbc_numOfMeals.insets = new Insets(0, 0, 5, 5);
-		gbc_numOfMeals.gridx = 1;
-		gbc_numOfMeals.gridy = 3;
-		contentPane.add(numOfMeals, gbc_numOfMeals);
-		
 		JLabel lblStudio = new JLabel("Studio");
 		lblStudio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblStudio = new GridBagConstraints();
 		gbc_lblStudio.insets = new Insets(0, 0, 5, 5);
 		gbc_lblStudio.gridx = 0;
-		gbc_lblStudio.gridy = 4;
+		gbc_lblStudio.gridy = 3;
 		contentPane.add(lblStudio, gbc_lblStudio);
 		
 		JCheckBox isStudio = new JCheckBox("");
@@ -137,7 +119,7 @@ public class RoomSearchView extends JFrame {
 		gbc_isStudio.anchor = GridBagConstraints.WEST;
 		gbc_isStudio.insets = new Insets(0, 0, 5, 5);
 		gbc_isStudio.gridx = 1;
-		gbc_isStudio.gridy = 4;
+		gbc_isStudio.gridy = 3;
 		contentPane.add(isStudio, gbc_isStudio);
 		
 		JLabel label_2 = new JLabel("\u03A4\u03B9\u03BC\u03AE \u0394\u03B9\u03B1\u03BD\u03C5\u03BA\u03C4\u03AD\u03C1\u03B5\u03C5\u03C3\u03B7\u03C2");
@@ -146,16 +128,16 @@ public class RoomSearchView extends JFrame {
 		gbc_label_2.anchor = GridBagConstraints.EAST;
 		gbc_label_2.insets = new Insets(0, 0, 5, 5);
 		gbc_label_2.gridx = 0;
-		gbc_label_2.gridy = 5;
+		gbc_label_2.gridy = 4;
 		contentPane.add(label_2, gbc_label_2);
-
-		final JLabel costPerDay = new JLabel("0.00\u20AC");
+		
+		JLabel costPerDay = new JLabel("0.00\u20AC");
 		costPerDay.setHorizontalAlignment(SwingConstants.CENTER);
 		costPerDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_costPerDay = new GridBagConstraints();
 		gbc_costPerDay.insets = new Insets(0, 0, 5, 5);
 		gbc_costPerDay.gridx = 4;
-		gbc_costPerDay.gridy = 5;
+		gbc_costPerDay.gridy = 4;
 		contentPane.add(costPerDay, gbc_costPerDay);
 
 		JSlider costPerDaySlider = new JSlider();
@@ -166,9 +148,8 @@ public class RoomSearchView extends JFrame {
 		GridBagConstraints gbc_costPerDaySlider = new GridBagConstraints();
 		gbc_costPerDaySlider.insets = new Insets(0, 0, 5, 5);
 		gbc_costPerDaySlider.gridx = 1;
-		gbc_costPerDaySlider.gridy = 5;
+		gbc_costPerDaySlider.gridy = 4;
 		contentPane.add(costPerDaySlider, gbc_costPerDaySlider);
-		
 		
 		
 		JLabel label_3 = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0386\u03C6\u03B9\u03BE\u03B7\u03C2");
@@ -178,7 +159,7 @@ public class RoomSearchView extends JFrame {
 		gbc_label_3.anchor = GridBagConstraints.EAST;
 		gbc_label_3.insets = new Insets(0, 0, 5, 5);
 		gbc_label_3.gridx = 0;
-		gbc_label_3.gridy = 6;
+		gbc_label_3.gridy = 5;
 		contentPane.add(label_3, gbc_label_3);
 		
 		arrivalDate = new JTextField();
@@ -186,18 +167,9 @@ public class RoomSearchView extends JFrame {
 		gbc_arrivalDate.insets = new Insets(0, 0, 5, 5);
 		gbc_arrivalDate.fill = GridBagConstraints.HORIZONTAL;
 		gbc_arrivalDate.gridx = 1;
-		gbc_arrivalDate.gridy = 6;
+		gbc_arrivalDate.gridy = 5;
 		contentPane.add(arrivalDate, gbc_arrivalDate);
 		arrivalDate.setColumns(5);
-		
-		JLabel is_check_in_Valid = new JLabel("");
-		is_check_in_Valid.setForeground(Color.RED);
-		GridBagConstraints gbc_is_check_in_Valid = new GridBagConstraints();
-		gbc_is_check_in_Valid.gridwidth = 2;
-		gbc_is_check_in_Valid.insets = new Insets(0, 0, 5, 5);
-		gbc_is_check_in_Valid.gridx = 2;
-		gbc_is_check_in_Valid.gridy = 6;
-		contentPane.add(is_check_in_Valid, gbc_is_check_in_Valid);
 		
 		JLabel label_4 = new JLabel("\u0397\u03BC\u03AD\u03C1\u03B1 \u0391\u03C0\u03BF\u03C7\u03CE\u03C1\u03B7\u03C3\u03B7\u03C2");
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -206,7 +178,7 @@ public class RoomSearchView extends JFrame {
 		gbc_label_4.anchor = GridBagConstraints.EAST;
 		gbc_label_4.insets = new Insets(0, 0, 5, 5);
 		gbc_label_4.gridx = 0;
-		gbc_label_4.gridy = 7;
+		gbc_label_4.gridy = 6;
 		contentPane.add(label_4, gbc_label_4);
 		
 		departureDate = new JTextField();
@@ -215,36 +187,47 @@ public class RoomSearchView extends JFrame {
 		gbc_departureDate.insets = new Insets(0, 0, 5, 5);
 		gbc_departureDate.fill = GridBagConstraints.HORIZONTAL;
 		gbc_departureDate.gridx = 1;
-		gbc_departureDate.gridy = 7;
+		gbc_departureDate.gridy = 6;
 		contentPane.add(departureDate, gbc_departureDate);
 		
+		JLabel is_check_in_Valid = new JLabel("");
+		is_check_in_Valid.setForeground(Color.RED);
+		GridBagConstraints gbc_is_check_in_Valid = new GridBagConstraints();
+		gbc_is_check_in_Valid.gridwidth = 2;
+		gbc_is_check_in_Valid.insets = new Insets(0, 0, 5, 5);
+		gbc_is_check_in_Valid.gridx = 2;
+		gbc_is_check_in_Valid.gridy = 5;
+		contentPane.add(is_check_in_Valid, gbc_is_check_in_Valid);
+		GridBagConstraints gbc_searchButton = new GridBagConstraints();
+		gbc_searchButton.insets = new Insets(0, 0, 5, 5);
+		gbc_searchButton.gridx = 0;
+		gbc_searchButton.gridy = 7;
 
-		
 		JLabel is_check_out_Valid = new JLabel("");
 		is_check_out_Valid.setForeground(Color.RED);
 		GridBagConstraints gbc_is_check_out_Valid = new GridBagConstraints();
 		gbc_is_check_out_Valid.gridwidth = 2;
 		gbc_is_check_out_Valid.insets = new Insets(0, 0, 5, 5);
 		gbc_is_check_out_Valid.gridx = 2;
-		gbc_is_check_out_Valid.gridy = 7;
+		gbc_is_check_out_Valid.gridy = 6;
 		contentPane.add(is_check_out_Valid, gbc_is_check_out_Valid);
-		GridBagConstraints gbc_searchButton = new GridBagConstraints();
-		gbc_searchButton.insets = new Insets(0, 0, 5, 5);
-		gbc_searchButton.gridx = 0;
-		gbc_searchButton.gridy = 8;
-
-		JButton searchButton = new JButton("\u0391\u03BD\u03B1\u03B6\u03AE\u03C4\u03B7\u03C3\u03B7");
-		searchButton.addActionListener(c.new SearchButtonController(numOfMeals,numOfBeds,isStudio,costPerDaySlider, arrivalDate, departureDate,is_check_in_Valid,is_check_out_Valid));
+	
+		JButton searchButton = new JButton("Αναζήτηση");
+		searchButton.addActionListener(c.new SearchButtonController(numOfBeds, isStudio, costPerDaySlider, arrivalDate, departureDate, is_check_in_Valid, is_check_out_Valid));
 		contentPane.add(searchButton, gbc_searchButton);
 		
-		JButton clearButton = new JButton("\u0391\u03C0\u03B1\u03BB\u03BF\u03B9\u03C6\u03AE \u03A6\u03AF\u03BB\u03C4\u03C1\u03C9\u03BD");
-		clearButton.addActionListener(c.new ClearButtonController(numOfMeals, numOfBeds, isStudio, costPerDaySlider, arrivalDate, departureDate));
+		Date today = new Date();
+		Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+		
+		SimpleDateFormat ft = new SimpleDateFormat("d/m/y");
+		arrivalDate.setText(ft.format(today));
+		departureDate.setText(ft.format(tomorrow));
+		
+		JButton clearButton = new JButton("Απαλοιφή Φίλτρων");
 		GridBagConstraints gbc_clearButton = new GridBagConstraints();
 		gbc_clearButton.insets = new Insets(0, 0, 5, 5);
 		gbc_clearButton.gridx = 1;
-		gbc_clearButton.gridy = 8;
+		gbc_clearButton.gridy = 7;
 		contentPane.add(clearButton, gbc_clearButton);
-		
-	
 	}
 }

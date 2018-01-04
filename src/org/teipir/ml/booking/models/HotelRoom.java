@@ -13,11 +13,11 @@ public class HotelRoom {
 	private int numberOfBeds;
 	private boolean isStudio;
 	private int numberOfMeals;
-	private int[] priceWithMeals;
+	private int price;
 	
 
 	public int calculatePrice(int numOfMeals, int days) {
-		return priceWithMeals[numOfMeals] * days;
+		return (price + numOfMeals * 10) * days;
 	}
 	
 	public boolean checkAvailability(Date from, Date till) {
@@ -49,12 +49,12 @@ public class HotelRoom {
 		this.isStudio = isStudio;
 	}
 
-	public int[] getPriceWithMeals() {
-		return priceWithMeals;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setPriceWithMeals(int[] priceWithMeals) {
-		this.priceWithMeals = priceWithMeals;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public int getNumberOfMeals() {

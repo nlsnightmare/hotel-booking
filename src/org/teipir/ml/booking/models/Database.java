@@ -12,21 +12,31 @@ public class Database {
 
 	private static Connection conn = null;
 
-	public static void initialize() {
+	public static boolean initialize() {
 		// TODO Auto-generated method stub
 	    try {
 	    	Class.forName("com.mysql.jdbc.Driver").newInstance();
 	    } catch (Exception ex) {
 	    	System.out.println("Failed to find 'com.mysql.jdbc.Driver'");
+	    	return false;
 	    }
 	    conn = null;
 	    try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelbooking?" + "user=root&password=root&useSSL=false");
 		} catch (SQLException e) {
 			System.out.println("Failed to connect to database!");
+			return false;
 		}
+	    return true;
 	}
-	public static boolean CheckRoomAvailability(int roomId,String checkin, String checkout) {
+
+	public static String convertDateFormat(String date) {
+		String dt;
+		String[] parts = date.split("/");
+		dt = parts[2] + "-" + parts[1] + "-" + parts[0];
+		return dt;
+	}
+	public static boolean isRoomAvailable(int roomId,String checkin, String checkout) {
 		java.sql.Statement stmt = null;
 		ResultSet rs = null;
 		String query = "SELECT COUNT(*) AS A FROM BOOKING WHERE " + 
@@ -34,7 +44,7 @@ public class Database {
 					        "STARTINGDATE > date '" + checkout +"' or " + 
 					        "FINISHDATE < date '"+ checkin + "')";
 		System.out.println(query);
-		int amount =0 , total = 1;
+		int amount = 0 , total = 1;
 		try {
 			stmt = conn.createStatement();
 
@@ -61,7 +71,7 @@ public class Database {
 		return amount - total == 0;
 	}
 
-	public static Vector<HotelRoom> runQuery(String query) {
+	public static Vector<HotelRoom> searchRoom(String query, String checkin, String checkout) {
 	    java.sql.Statement stmt = null;
 	    ResultSet rs = null;
 		Vector<HotelRoom> res = new Vector<HotelRoom>();
@@ -71,9 +81,14 @@ public class Database {
 	            rs = stmt.getResultSet();
 				try {
 					while(rs.next()) {
+						int id = rs.getInt("roomId");
+						if(!isRoomAvailable(id, Database.convertDateFormat(checkin), Database.convertDateFormat(checkout))) 
+							continue;
 						res.add(new HotelRoom());
-						res.get(0).setRoomID(rs.getInt("roomId"));
-						res.get(0).setStudio(rs.getBoolean("isStudio"));
+						res.lastElement().setRoomID(rs.getInt("roomId"));
+						res.lastElement().setStudio(rs.getBoolean("isStudio"));
+						res.lastElement().setNumberOfBeds(rs.getInt("numberOfBeds"));
+						res.lastElement().setPrice(rs.getInt("price"));
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.teipir.ml.booking.controller.RoomResultsController;
 import org.teipir.ml.booking.models.HotelRoom;
 
 import javax.imageio.ImageIO;
@@ -25,17 +26,27 @@ import java.io.IOException;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Choice;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class RoomSearchResultsView extends JFrame {
 	private Vector<HotelRoom> results;
 	private int currentRoomIndex;
 	private JPanel contentPane;
-
+	JButton nextRoomButton;
+	JButton prevRoomButton;
+	JLabel resultsCountLabel;
+	JLabel RoomPhoto;
+	private JLabel totalCostLabel;
+	Choice numOfMeals;
 	/**
 	 * Create the frame.
 	 */
 	public RoomSearchResultsView(Vector<HotelRoom> v) {
-		System.out.println();
 		results = v;
 		currentRoomIndex = 0;
 		setResizable(false);
@@ -51,21 +62,12 @@ public class RoomSearchResultsView extends JFrame {
 		label.setBounds(0, 11, 539, 38);
 		contentPane.add(label);
 		
-		JButton prevRoomButton = new JButton("Προηγούμενο Δωμάτιο");
+		prevRoomButton = new JButton("Προηγούμενο Δωμάτιο");
 		prevRoomButton.setEnabled(false);
-		prevRoomButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		prevRoomButton.setBounds(10, 300, 160, 50);
 		contentPane.add(prevRoomButton);
 		
-		JButton nextRoomButton = new JButton("Επόμενο Δωμάτιο");
-		nextRoomButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		nextRoomButton.setEnabled(v.size() > 1);
+		nextRoomButton = new JButton("Επόμενο Δωμάτιο");
 		nextRoomButton.setBounds(370, 300, 160, 50);
 		contentPane.add(nextRoomButton);
 		
@@ -73,12 +75,61 @@ public class RoomSearchResultsView extends JFrame {
 		BookRoomButton.setBounds(180, 300, 180, 50);
 		contentPane.add(BookRoomButton);
 		
-		JLabel resultsCountLabel = new JLabel("Βλέπετε δωμάτιο " + (currentRoomIndex + 1) + " από " + v.size());
+		resultsCountLabel = new JLabel();
 		resultsCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		resultsCountLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		resultsCountLabel.setBounds(0, 60, 250, 22);
 		contentPane.add(resultsCountLabel);
 		
+		numOfMeals = new Choice();
+		numOfMeals.add("Kανένα");
+		numOfMeals.add("Ημιδιατροφή");
+		numOfMeals.add("Πλήρης Διατροφή");
+		numOfMeals.setBounds(412, 93, 118, 20);
+		contentPane.add(numOfMeals);
+
+		RoomPhoto = new JLabel();
+		RoomPhoto.setBackground(Color.BLUE);
+		RoomPhoto.setBounds(62, 93, 217, 173);
+		contentPane.add(RoomPhoto);
+		
+		JLabel costLabel = new JLabel("Τιμή διανυκτέρευσης:");
+		costLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		costLabel.setBounds(289, 143, 139, 22);
+		contentPane.add(costLabel);
+		
+		JLabel numOfMealsLabel = new JLabel("Αριθμός Γευμάτων");
+		numOfMealsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		numOfMealsLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		numOfMealsLabel.setBounds(285, 93, 114, 17);
+		contentPane.add(numOfMealsLabel);
+		
+		totalCostLabel = new JLabel("totalCost");
+		totalCostLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		totalCostLabel.setBounds(432, 143, 69, 20);
+		contentPane.add(totalCostLabel);
+
+		RoomResultsController c = new RoomResultsController();
+		numOfMeals.addItemListener(c.new CostPerDayController(this));
+		nextRoomButton.addActionListener(c.new NextButtonController(this));
+		prevRoomButton.addActionListener(c.new PrevButtonController(this));
+		currentRoomIndex = 0;
+		DisplayRoom();
+	}
+	
+	public void prevRoom() {
+		currentRoomIndex--;
+		DisplayRoom();
+	}
+	public void nextRoom() {
+		currentRoomIndex++;
+		DisplayRoom();
+	}
+
+	private void DisplayRoom() {
+		nextRoomButton.setEnabled(results.size() > currentRoomIndex + 1);
+		prevRoomButton.setEnabled(currentRoomIndex > 0);
+		resultsCountLabel.setText(("Βλέπετε δωμάτιο " + (currentRoomIndex + 1) + " από " + results.size()));
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("roompics/" + results.get(currentRoomIndex).getRoomID() + ".jpg"));
@@ -86,18 +137,14 @@ public class RoomSearchResultsView extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		JLabel RoomPhoto = new JLabel();
-		RoomPhoto.setBounds(62, 93, 217, 173);
 		Image dimg = img.getScaledInstance(RoomPhoto.getWidth(), RoomPhoto.getHeight(),
 		        Image.SCALE_SMOOTH);
 		RoomPhoto.setIcon(new ImageIcon(dimg));
-		System.out.println(img == null);
-		contentPane.add(RoomPhoto);
-
+		
+		UpdateCostLabel();
 	}
-
-	public void DisplayRoom(HotelRoom r) {
+	
+	public void UpdateCostLabel() {
+		totalCostLabel.setText(results.get(currentRoomIndex).calculatePrice(numOfMeals.getSelectedIndex(), 1) + "€");
 	}
-
 }
