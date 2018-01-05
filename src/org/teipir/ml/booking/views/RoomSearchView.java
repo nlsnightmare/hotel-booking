@@ -225,6 +225,7 @@ public class RoomSearchView extends JFrame {
 		departureDate.setText(ft.format(tomorrow));
 		
 		JButton clearButton = new JButton("Απαλοιφή Φίλτρων");
+		clearButton.addActionListener(c.new ClearButtonController(numOfBeds, isStudio, costPerDaySlider, arrivalDate, departureDate));
 		GridBagConstraints gbc_clearButton = new GridBagConstraints();
 		gbc_clearButton.insets = new Insets(0, 0, 5, 5);
 		gbc_clearButton.gridx = 1;

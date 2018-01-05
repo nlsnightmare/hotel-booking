@@ -29,8 +29,12 @@ public class Booking {
 		Date d2 = new Date();
 		Date d3 = new Date();
 		try {
-			d1 = ft.parse(checkIn);
-			d2 = ft.parse(checkOut);
+			if(checkIn != "") {
+				d1 = ft.parse(checkIn);
+			}
+			if(checkOut != "") {
+				d2 = ft.parse(checkOut);
+			}
 			if(bookDate != "")
 				d3 = ft.parse(bookDate);
 		} catch (ParseException e) {

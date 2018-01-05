@@ -86,8 +86,8 @@ public class RoomSearchController {
 		JTextField from;
 		JTextField till;
 
-		public ClearButtonController(Choice numOfMeals,Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till) {
-			this.numOfMeals = numOfMeals;
+		public ClearButtonController(Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till) {
+			//this.numOfMeals = numOfMeals;
 			this.numOfBeds = numOfBeds;
 			this.isStudio = isStudio;
 			this.costPerDay = costPerDay;
@@ -96,7 +96,7 @@ public class RoomSearchController {
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
-			numOfMeals.select(0);
+			//numOfMeals.select(0);
 			numOfBeds.select(0);
 			isStudio.setSelected(false);
 			costPerDay.setValue(costPerDay.getMinimum());
