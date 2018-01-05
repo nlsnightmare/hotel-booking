@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.teipir.ml.booking.controller.RoomResultsController;
+import org.teipir.ml.booking.models.Booking;
 import org.teipir.ml.booking.models.HotelRoom;
 
 import javax.imageio.ImageIO;
@@ -33,8 +34,9 @@ import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
-public class RoomSearchResultsView extends JFrame {
+public class RoomResultsView extends JFrame {
 	private Vector<HotelRoom> results;
+	Booking b;
 	private int currentRoomIndex;
 	private JPanel contentPane;
 	JButton nextRoomButton;
@@ -46,8 +48,9 @@ public class RoomSearchResultsView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RoomSearchResultsView(Vector<HotelRoom> v) {
+	public RoomResultsView(Vector<HotelRoom> v, Booking b) {
 		results = v;
+		this.b = b;
 		currentRoomIndex = 0;
 		setResizable(false);
 		setBounds(100, 100, 555, 398);
@@ -110,14 +113,17 @@ public class RoomSearchResultsView extends JFrame {
 		contentPane.add(totalCostLabel);
 
 		RoomResultsController c = new RoomResultsController();
-		numOfMeals.addItemListener(c.new CostPerDayController(this));
-		bookRoomButton.addActionListener(c.new BookRoomButton());
+		numOfMeals.addItemListener(c.new CostPerDayController(this,numOfMeals,b));
+		bookRoomButton.addActionListener(c.new BookRoomButton(this,b));
 		nextRoomButton.addActionListener(c.new NextButtonController(this));
 		prevRoomButton.addActionListener(c.new PrevButtonController(this));
 		currentRoomIndex = 0;
 		DisplayRoom();
 	}
 	
+	public int getCurrentRoomID() {
+		return results.get(currentRoomIndex).getRoomID();
+	}
 	public void prevRoom() {
 		currentRoomIndex--;
 		DisplayRoom();

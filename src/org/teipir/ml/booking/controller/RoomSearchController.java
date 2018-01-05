@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
@@ -16,9 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.teipir.ml.booking.models.Booking;
 import org.teipir.ml.booking.models.Database;
 import org.teipir.ml.booking.models.HotelRoom;
-import org.teipir.ml.booking.views.RoomSearchResultsView;
+import org.teipir.ml.booking.views.RoomResultsView;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -70,7 +72,11 @@ public class RoomSearchController {
 			String query = "SELECT * FROM ROOMS WHERE numberofbeds=" + numberOfBeds + " && isstudio=" + isstudio + " && price < " + maximumPrice;
 			Vector<HotelRoom> v = Database.searchRoom(query, startingDate, finishDate);
 			if( v.size() > 0) {
-				RoomSearchResultsView view = new RoomSearchResultsView(v);
+				Booking b = new Booking();
+				b.setBookDate(Calendar.getInstance().getTime());
+				b.setCheckIn(startingDate);
+				b.setCheckOut(finishDate);
+				RoomResultsView view = new RoomResultsView(v,b);
 				view.setVisible(true);
 			}
 			else
@@ -87,7 +93,6 @@ public class RoomSearchController {
 		JTextField till;
 
 		public ClearButtonController(Choice numOfBeds,JCheckBox isStudio, JSlider costPerDay, JTextField from, JTextField till) {
-			//this.numOfMeals = numOfMeals;
 			this.numOfBeds = numOfBeds;
 			this.isStudio = isStudio;
 			this.costPerDay = costPerDay;
@@ -96,7 +101,6 @@ public class RoomSearchController {
 		}
 
 		public void actionPerformed(ActionEvent arg0) {
-			//numOfMeals.select(0);
 			numOfBeds.select(0);
 			isStudio.setSelected(false);
 			costPerDay.setValue(costPerDay.getMinimum());

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.teipir.ml.booking.controller.RoomBookController;
 import org.teipir.ml.booking.models.Booking;
 
 import javax.swing.JLabel;
@@ -17,12 +18,15 @@ import javax.swing.JButton;
 import javax.swing.JTextPane;
 
 public class RoomBookView extends JFrame {
+	private Booking b;
 	public JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	public RoomBookView() {
+	private JTextField nameField;
+	private JTextField surnameField;
+	private JTextField telephoneField;
+	private JTextField creditField;
+	public RoomBookView(Booking b) {
+		this.b = b;
+		System.out.println(b.toQuery());
 		contentPane = new JPanel();
 		setBounds(100, 100, 523, 300);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -45,35 +49,35 @@ public class RoomBookView extends JFrame {
 		title.setBounds(10, 16, 273, 38);
 		contentPane.add(title);
 		
-		textField = new JTextField();
-		textField.setBounds(115, 65, 145, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		nameField = new JTextField();
+		nameField.setBounds(115, 65, 145, 20);
+		contentPane.add(nameField);
+		nameField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(115, 98, 145, 20);
-		contentPane.add(textField_1);
+		surnameField = new JTextField();
+		surnameField.setColumns(10);
+		surnameField.setBounds(115, 98, 145, 20);
+		contentPane.add(surnameField);
 		
 		JLabel telephoneLabel = new JLabel("Τηλέφωνο:");
 		telephoneLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		telephoneLabel.setBounds(10, 131, 95, 22);
 		contentPane.add(telephoneLabel);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(115, 131, 145, 20);
-		contentPane.add(textField_2);
+		telephoneField = new JTextField();
+		telephoneField.setColumns(10);
+		telephoneField.setBounds(115, 131, 145, 20);
+		contentPane.add(telephoneField);
 		
 		JLabel creditCardLabel = new JLabel("Πιστωτική:");
 		creditCardLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		creditCardLabel.setBounds(10, 164, 95, 22);
 		contentPane.add(creditCardLabel);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(115, 164, 145, 20);
-		contentPane.add(textField_3);
+		creditField = new JTextField();
+		creditField.setColumns(10);
+		creditField.setBounds(115, 164, 145, 20);
+		contentPane.add(creditField);
 		
 		JButton confirmButton = new JButton("Ολοκλήρωση");
 		confirmButton.setBounds(16, 215, 110, 23);
@@ -100,5 +104,8 @@ public class RoomBookView extends JFrame {
 		perPerDayLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		perPerDayLabel.setBounds(301, 89, 196, 31);
 		contentPane.add(perPerDayLabel);
+		
+		RoomBookController c = new RoomBookController();
+		confirmButton.addActionListener(c.new ConfirmButton(b, nameField, surnameField, telephoneField, creditField));
 	}
 }

@@ -17,14 +17,17 @@ public class Booking {
 	private Date checkOut;
 	private int prepaidAmount;
 	private int roomId;
-	private int numMeals;
+	private int numMeals = 0;
 	private boolean isOnline;
 
+	public Booking() {
+		
+	}
 	
 	public Booking(int roomId, String telephone, String creditCard, String name, String surname, String bookDate,
 			String checkIn, String checkOut, int prepaidAmount, boolean isOnline) {
 
-		SimpleDateFormat ft = new SimpleDateFormat("d-m-y");
+		SimpleDateFormat ft = new SimpleDateFormat("d-M-y");
 		Date d1 = new Date();
 		Date d2 = new Date();
 		Date d3 = new Date();
@@ -52,10 +55,6 @@ public class Booking {
 		this.isOnline = isOnline;
 	}
 
-	public static Booking createBooking(int roomId, int numOfMeals) {
-		Booking b = new Booking(roomId,"","","","","","","",0,true);
-		return b;
-	}
 	public int getBookingID() {
 		return bookingID;
 	}
@@ -95,14 +94,30 @@ public class Booking {
 	public Date getCheckIn() {
 		return checkIn;
 	}
-	public void setStartingDate(Date startingDate) {
+	public void setCheckIn(Date startingDate) {
 		this.checkIn = startingDate;
+	}
+	public void setCheckIn(String checkIn) {
+		SimpleDateFormat ft = new SimpleDateFormat("d/M/y");
+		try {
+			this.checkIn = ft.parse(checkIn);
+		} catch (ParseException e) {
+		}
+		
 	}
 	public Date getCheckOut() {
 		return checkOut;
 	}
-	public void setFinishDate(Date finishDate) {
+	public void setCheckOut(Date finishDate) {
 		this.checkOut = finishDate;
+	}
+	public void setCheckOut(String checkOut) {
+		SimpleDateFormat ft = new SimpleDateFormat("d/M/y");
+		try {
+			this.checkOut = ft.parse(checkOut);
+		} catch (ParseException e) {
+		}
+		
 	}
 	public int getPrepaidAmount() {
 		return prepaidAmount;
@@ -112,6 +127,9 @@ public class Booking {
 	}
 	public int getRoom() {
 		return roomId;
+	}
+	public void setRoom(int roomId) {
+		this.roomId = roomId;
 	}
 	public void setRoom(HotelRoom room) {
 		this.roomId = room.getRoomID();
