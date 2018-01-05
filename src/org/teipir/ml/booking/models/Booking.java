@@ -17,6 +17,7 @@ public class Booking {
 	private Date checkOut;
 	private int prepaidAmount;
 	private int roomId;
+	private int numMeals;
 	private boolean isOnline;
 
 	
@@ -47,6 +48,10 @@ public class Booking {
 		this.isOnline = isOnline;
 	}
 
+	public static Booking createBooking(int roomId, int numOfMeals) {
+		Booking b = new Booking(roomId,"","","","","","","",0,true);
+		return b;
+	}
 	public int getBookingID() {
 		return bookingID;
 	}
@@ -123,5 +128,13 @@ public class Booking {
 				+ "VALUES('" + getTelephone() + "','" + getCreditCard() + "','" + getName() + "','" + getSurname() + "','" + today +
 				"','" + ft.format(getCheckIn()) + "','" + ft.format(getCheckOut()) + "'," + getPrepaidAmount() + "," + getRoom() + ",true)";
 		return query;
+	}
+
+	public int getNumMeals() {
+		return numMeals;
+	}
+
+	public void setNumMeals(int numMeals) {
+		this.numMeals = numMeals;
 	}
 }

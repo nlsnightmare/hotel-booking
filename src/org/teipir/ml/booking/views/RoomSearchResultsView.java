@@ -71,9 +71,9 @@ public class RoomSearchResultsView extends JFrame {
 		nextRoomButton.setBounds(370, 300, 160, 50);
 		contentPane.add(nextRoomButton);
 		
-		JButton BookRoomButton = new JButton("Κράτηση Δωματίου");
-		BookRoomButton.setBounds(180, 300, 180, 50);
-		contentPane.add(BookRoomButton);
+		JButton bookRoomButton = new JButton("Κράτηση Δωματίου");
+		bookRoomButton.setBounds(180, 300, 180, 50);
+		contentPane.add(bookRoomButton);
 		
 		resultsCountLabel = new JLabel();
 		resultsCountLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,6 +111,7 @@ public class RoomSearchResultsView extends JFrame {
 
 		RoomResultsController c = new RoomResultsController();
 		numOfMeals.addItemListener(c.new CostPerDayController(this));
+		bookRoomButton.addActionListener(c.new BookRoomButton());
 		nextRoomButton.addActionListener(c.new NextButtonController(this));
 		prevRoomButton.addActionListener(c.new PrevButtonController(this));
 		currentRoomIndex = 0;
