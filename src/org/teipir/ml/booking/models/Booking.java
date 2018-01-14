@@ -25,7 +25,7 @@ public class Booking {
 	}
 	
 	public Booking(int roomId, String telephone, String creditCard, String name, String surname, String bookDate,
-			String checkIn, String checkOut, int prepaidAmount, boolean isOnline) {
+		String checkIn, String checkOut, int prepaidAmount, boolean isOnline) {
 
 		SimpleDateFormat ft = new SimpleDateFormat("d-M-y");
 		Date d1 = new Date();
@@ -55,6 +55,9 @@ public class Booking {
 		this.isOnline = isOnline;
 	}
 
+	public int getDuration() {
+		 return ((int)( checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)); 	
+	}
 	public int getBookingID() {
 		return bookingID;
 	}
@@ -146,9 +149,9 @@ public class Booking {
 		Date d = Calendar.getInstance().getTime();
 		SimpleDateFormat ft = new SimpleDateFormat("y-M-d");
 		today = ft.format(d);
-		String query = "INSERT INTO BOOKING(TELEPHONE,CREDITCARD,FIRSTNAME,SURNAME,BOOKDATE,CHECKIN,CHECKOUT,PREPAIDAMOUNT,ROOM,ISONLINE) "
+		String query = "INSERT INTO BOOKING(TELEPHONE,CREDITCARD,FIRSTNAME,SURNAME,BOOKDATE,CHECKIN,CHECKOUT,PREPAIDAMOUNT,ROOM,ISONLINE,NUMMEALS) "
 				+ "VALUES('" + getTelephone() + "','" + getCreditCard() + "','" + getName() + "','" + getSurname() + "','" + today +
-				"','" + ft.format(getCheckIn()) + "','" + ft.format(getCheckOut()) + "'," + getPrepaidAmount() + "," + getRoom() + ",true)";
+				"','" + ft.format(getCheckIn()) + "','" + ft.format(getCheckOut()) + "'," + getPrepaidAmount() + "," + getRoom() + ",true,"+numMeals+")";
 		return query;
 	}
 

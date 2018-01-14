@@ -71,9 +71,60 @@ public class Database {
 		return amount - total == 0;
 	}
 
-	public static void bookRoom(Booking b) {
+	public static boolean bookRoom(Booking b) {
+		if(b.getTelephone().equals("") || b.getSurname().equals("") || b.getName().equals("") || b.getCreditCard().equals(""))
+		{
+			System.out.println("A");
+			return false;
+		}
 		ResultSet rs = null;
 	    java.sql.Statement stmt = null;
+	    try	{
+	    	stmt = conn.createStatement();
+	    	stmt.execute(b.toQuery());
+	    	return true;
+	    }
+	    catch (SQLException e) {
+	    	System.out.println(e.toString());
+	    	return false;
+	    }
+	}
+
+	public static HotelRoom searchRoom(int roomId) {
+	    java.sql.Statement stmt = null;
+	    ResultSet rs = null;
+		HotelRoom r = new HotelRoom();
+	    try {
+	        stmt = conn.createStatement();
+	        if (stmt.execute("SELECT * FROM ROOMS WHERE ROOMID=" + roomId))
+	            rs = stmt.getResultSet();
+				try {
+					rs.next();
+					r.setRoomID(rs.getInt("roomId"));
+					r.setStudio(rs.getBoolean("isStudio"));
+					r.setNumberOfBeds(rs.getInt("numberOfBeds"));
+					r.setPrice(rs.getInt("price"));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+	    }
+	    catch (SQLException ex){
+	        // handle any errors
+	        System.out.println("SQLException: " + ex.getMessage());
+	        System.out.println("SQLState: " + ex.getSQLState());
+	        System.out.println("VendorError: " + ex.getErrorCode());
+	    }
+	    finally {
+	       if( stmt != null && rs != null) {
+	            try {
+	            	rs.close();
+	                stmt.close();
+	            } catch (SQLException sqlEx) { }
+	            stmt = null;
+	        }
+	    }
+	    return r;
 	}
 
 	public static Vector<HotelRoom> searchRoom(String query, String checkin, String checkout) {
