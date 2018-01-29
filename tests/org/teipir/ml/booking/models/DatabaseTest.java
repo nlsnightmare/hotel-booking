@@ -1,6 +1,7 @@
 package org.teipir.ml.booking.models;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -24,16 +25,32 @@ public class DatabaseTest extends TestCase {
 		}
 	}
 
+	public void tearDown() {
+		ResultSet rs = null;
+	    java.sql.Statement stmt = null;
+	    try	{
+	    	stmt = conn.createStatement();
+	    	stmt.execute("DELETE FROM BOOKING WHERE CHECKIN='1-1-1'");
+	    }
+	    catch (SQLException e) {
+	    	System.out.println(e.toString());
+	    	assert(false);
+	    }
+	}
 	public void testConnection() {
 		assertEquals(Database.initialize("hotelbooking", "root", "root"), true);
 	}
 	
 	public void testBooking() {
-		Database.bookRoom(new Booking(1, "2101111111","123443211234", "TestName", "TestSurName", "", "1-1-1","2-1-1",200,true));
-
+		assertEquals(Database.bookRoom(new Booking(1, "2101111111","123443211234", "TestName", "TestSurName", "", "1-1-1","2-1-1",200,true)),true);
+		assertEquals(Database.bookRoom(new Booking(1, "","", "", "", "", "1-1-1","2-1-1",200,true)),false);
 	}
 
-	public void testCheckRoomAvailability() {
+	public void testSearchRoom() {
+		HotelRoom r = Database.searchRoom(1);
+		assertEquals(r.getRoomID(), 1);
+		r = Database.searchRoom(-1);
+		assertEquals(r, null);
 	}
 	
 	public void testConvertDate() {
@@ -42,8 +59,14 @@ public class DatabaseTest extends TestCase {
 	}
 
 	public void testQuery() {
-		Vector<HotelRoom> v = Database.searchRoom("SELECT * FROM ROOMS","1/1/2050", "2/1/2050");
+		Vector<HotelRoom> v = Database.searchRoom("SELECT * FROM ROOMS","1/1/3000", "2/1/3000");
 		assertEquals(v.size(), 10);
+		v = Database.searchRoom("SELECT * FROM ROOMS WHERE 0","1/1/2050", "2/1/2050");
+		assertEquals(v.size(), 0);
+
+		Database.bookRoom(new Booking(1, "2101111111","123443211234", "TestName", "TestSurName", "", "1-1-1","2-1-1",200,true));
+		v = Database.searchRoom("SELECT * FROM ROOMS WHERE ROOMID=1","1/1/1", "2/1/2050");
+		assertEquals(v.size(),0);
 	}
 
 }

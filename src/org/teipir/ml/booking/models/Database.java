@@ -74,7 +74,6 @@ public class Database {
 	public static boolean bookRoom(Booking b) {
 		if(b.getTelephone().equals("") || b.getSurname().equals("") || b.getName().equals("") || b.getCreditCard().equals(""))
 		{
-			System.out.println("A");
 			return false;
 		}
 		ResultSet rs = null;
@@ -96,17 +95,17 @@ public class Database {
 		HotelRoom r = new HotelRoom();
 	    try {
 	        stmt = conn.createStatement();
-	        if (stmt.execute("SELECT * FROM ROOMS WHERE ROOMID=" + roomId))
-	            rs = stmt.getResultSet();
-				try {
-					rs.next();
-					r.setRoomID(rs.getInt("roomId"));
-					r.setStudio(rs.getBoolean("isStudio"));
-					r.setNumberOfBeds(rs.getInt("numberOfBeds"));
-					r.setPrice(rs.getInt("price"));
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+	        stmt.execute("SELECT * FROM ROOMS WHERE ROOMID=" + roomId);
+	        rs = stmt.getResultSet();
+			try {
+				rs.next();
+				r.setRoomID(rs.getInt("roomId"));
+				r.setStudio(rs.getBoolean("isStudio"));
+				r.setNumberOfBeds(rs.getInt("numberOfBeds"));
+				r.setPrice(rs.getInt("price"));
+			} catch (SQLException e) {
+				return null;
+			}
 
 	    }
 	    catch (SQLException ex){
